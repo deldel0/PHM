@@ -12,6 +12,12 @@
                 return (h || 0) * 3600000 + (m || 0) * 60000;
             },
 
+            getDateKey(timestamp) {
+                const match = String(timestamp || '').match(/^(\d{4})[/-](\d{1,2})[/-](\d{1,2})(?=$|[\sT])/);
+                if (!match) return '';
+                return `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
+            },
+
             formatShortTime(ts) {
                 if (!ts) return '';
                 const parts = ts.split(' ');
@@ -50,7 +56,7 @@
 
                 // Filter events
                 const visibleEvents = AppState.events.filter(ev => {
-                    if (dateFilter !== 'ALL' && !ev.failTime.startsWith(dateFilter)) return false;
+                    if (dateFilter && this.getDateKey(ev.failTime) !== dateFilter) return false;
                     if (itemFilter !== 'ALL' && ev.itemCode !== itemFilter) return false;
                     return true;
                 });

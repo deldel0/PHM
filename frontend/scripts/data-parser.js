@@ -206,11 +206,8 @@
             },
 
             refreshFilterDropdowns() {
-                // Populate Date Filter
-                const dateSelect = document.getElementById('date-filter');
-                const dates = [...new Set(AppState.events.map(e => e.failTime.split(' ')[0]).filter(Boolean))];
-                dateSelect.innerHTML = `<option value="ALL">全部日期 (${dates.length}天)</option>` +
-                    dates.map(d => `<option value="${d}">${d}</option>`).join('');
+                // Reset Date Filter
+                document.getElementById('date-filter').value = '';
 
                 // Populate Test Item Filter
                 const itemSelect = document.getElementById('item-filter');
