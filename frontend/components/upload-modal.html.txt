@@ -41,7 +41,7 @@
                     <div class="flex justify-between items-center">
                         <label class="font-bold text-slate-700">或直接貼上 JSON / CSV 數據內容：</label>
                         <button id="btn-load-sample-paste" class="text-teal-700 hover:underline font-semibold cursor-pointer">
-                            填入測試範例數據
+                            填入空白 JSON 格式
                         </button>
                     </div>
                     <textarea id="paste-data-input" rows="7" placeholder="貼上 JSON 物件或 CSV 表格內容（包含標題列）..." class="w-full border border-slate-300 rounded-xl p-3 font-mono-code text-[11px] text-slate-800 focus:outline-none focus:border-teal-500"></textarea>
@@ -50,7 +50,7 @@
 
             <div class="bg-slate-50 px-6 py-3.5 border-t border-slate-200 flex justify-between items-center">
                 <button id="btn-reset-default" class="text-xs text-slate-500 hover:text-slate-800 font-semibold underline cursor-pointer">
-                    恢復初始範例資料
+                    恢復空白初始資料
                 </button>
                 <div class="flex gap-2">
                     <button id="btn-cancel-upload" class="px-4 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-100 cursor-pointer">

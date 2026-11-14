@@ -205,8 +205,8 @@
                     <div class="space-y-3">
                         <div class="font-bold text-slate-700">支援的 CSV / Excel 匯入欄位說明：</div>
                         <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-slate-600 leading-relaxed">
-                            <p><strong class="text-slate-900">1. 兼容您現有的 Excel 欄位格式：</strong><br>
-                            系統內建智慧解析器，可直接上傳包含 <code class="bg-white px-1 py-0.5 rounded border">測試時間, PSU序列號, 初測工位, Fail 項, 重測歷程, 最終結果, Fail維度, 備註</code> 的 CSV 檔案，系統會自動從「重測歷程」中解析出交叉工位（例如 <code>換ATS2_2_3重測Pass</code>）並繪製跨工位連線。</p>
+                            <p><strong class="text-slate-900">1. 兼容 Excel 欄位格式：</strong><br>
+                            系統內建解析器，可直接上傳包含 <code class="bg-white px-1 py-0.5 rounded border">測試時間, PSU序列號, 初測工位, Fail 項, 重測歷程, 最終結果, Fail維度, 備註</code> 的 CSV 檔案，系統會自動從「重測歷程」中解析出交叉工位（例如 <code>換ATS2_2_3重測Pass</code>）並繪製跨工位連線。</p>
                             <p><strong class="text-slate-900">2. 推薦優化後的動作矩陣 CSV 欄位：</strong><br>
                             <code class="bg-white px-1 py-0.5 rounded border">測試時間, PSU序列號, 初測工位, Fail測項, 原位重測, 插拔陪測, 特殊處置, 交叉工位, 關鍵解決動作, 真因歸屬, 備註</code></p>
                             <p><strong class="text-slate-900">3. 工位可信度自動計算邏輯：</strong><br>

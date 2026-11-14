@@ -136,7 +136,7 @@
                 TimelineRenderer.renderAll();
                 pasteInput.value = '';
                 uploadModal.classList.add('hidden');
-                UIController.showToast('已恢復初始 ATS2-2 匯總範例資料');
+                UIController.showToast('已恢復空白初始資料');
             });
 
             // Template & CSV Export Buttons
