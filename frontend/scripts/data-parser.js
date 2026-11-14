@@ -206,8 +206,13 @@
             },
 
             refreshFilterDropdowns() {
-                // Reset Date Filter
-                document.getElementById('date-filter').value = '';
+                // Default to the current local date
+                const today = new Date();
+                document.getElementById('date-filter').value = [
+                    today.getFullYear(),
+                    String(today.getMonth() + 1).padStart(2, '0'),
+                    String(today.getDate()).padStart(2, '0')
+                ].join('-');
 
                 // Populate Test Item Filter
                 const itemSelect = document.getElementById('item-filter');
