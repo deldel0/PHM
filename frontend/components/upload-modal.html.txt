@@ -1,0 +1,65 @@
+    <!-- ========================================================================
+         MODAL 1: BACKEND MANUAL DATA UPLOAD DRAWER / MODAL
+         ======================================================================== -->
+    <div id="upload-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            
+            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                <div>
+                    <h3 class="text-base font-bold text-slate-900">後臺測試數據手動上傳 (JSON / CSV 匯入)</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">支援標準後臺 JSON 格式，或直接上傳 Excel 匯出的 CSV 表格</p>
+                </div>
+                <button id="btn-close-upload" class="text-slate-400 hover:text-slate-700 text-2xl font-bold leading-none cursor-pointer">&times;</button>
+            </div>
+
+            <div class="p-6 overflow-y-auto space-y-4 text-xs">
+                <!-- File Dropzone -->
+                <div id="file-dropzone" class="border-2 border-dashed border-slate-300 hover:border-teal-500 rounded-xl p-5 text-center bg-slate-50/70 transition-colors cursor-pointer">
+                    <input type="file" id="file-input" accept=".json,.csv,.txt" class="hidden">
+                    <svg class="w-8 h-8 mx-auto text-teal-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <div class="font-bold text-slate-800 text-sm">點擊選擇檔案，或將 .JSON / .CSV 拖曳至此處</div>
+                    <div class="text-slate-400 mt-1">支援 UTF-8 編碼的 CSV 匯出檔或後臺 API JSON 檔案</div>
+                </div>
+
+                <!-- Template Download Links -->
+                <div class="flex flex-wrap items-center justify-between gap-2 bg-teal-50/60 border border-teal-200/80 px-3.5 py-2.5 rounded-xl">
+                    <span class="text-teal-900 font-medium">需要標準格式範本嗎？</span>
+                    <div class="flex gap-2">
+                        <button id="modal-dl-csv" class="px-2.5 py-1 bg-white border border-teal-300 text-teal-800 hover:bg-teal-100 rounded-md font-semibold cursor-pointer">
+                            下載 CSV 範本
+                        </button>
+                        <button id="modal-dl-json" class="px-2.5 py-1 bg-white border border-teal-300 text-teal-800 hover:bg-teal-100 rounded-md font-semibold cursor-pointer">
+                            下載 JSON 範本
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Direct Paste Textarea -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <label class="font-bold text-slate-700">或直接貼上 JSON / CSV 數據內容：</label>
+                        <button id="btn-load-sample-paste" class="text-teal-700 hover:underline font-semibold cursor-pointer">
+                            填入測試範例數據
+                        </button>
+                    </div>
+                    <textarea id="paste-data-input" rows="7" placeholder="貼上 JSON 物件或 CSV 表格內容（包含標題列）..." class="w-full border border-slate-300 rounded-xl p-3 font-mono-code text-[11px] text-slate-800 focus:outline-none focus:border-teal-500"></textarea>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 px-6 py-3.5 border-t border-slate-200 flex justify-between items-center">
+                <button id="btn-reset-default" class="text-xs text-slate-500 hover:text-slate-800 font-semibold underline cursor-pointer">
+                    恢復初始範例資料
+                </button>
+                <div class="flex gap-2">
+                    <button id="btn-cancel-upload" class="px-4 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-100 cursor-pointer">
+                        取消
+                    </button>
+                    <button id="btn-apply-upload" class="px-4 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-xs cursor-pointer">
+                        解析並更新儀表板
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

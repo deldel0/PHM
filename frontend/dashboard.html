@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/dashboard.css">
+
+</head>
+<body class="flex flex-col h-screen overflow-hidden">
+    <div id="load-error" hidden role="alert" class="fixed inset-x-4 top-4 z-[100] rounded-lg border border-rose-300 bg-rose-50 p-4 text-sm text-rose-800 shadow-lg"></div>
+    <div id="app-header"></div>
+    <div class="flex-1 flex min-h-0 overflow-hidden">
+        <div id="app-sidebar"></div>
+        <div id="app-views" class="flex-1 flex min-h-0 overflow-hidden"></div>
+    </div>
+    <div id="app-upload-modal"></div>
+    <div id="app-detail-modal"></div>
+    <div id="app-toast"></div>
+
+    <script src="./scripts/component-loader.js" defer></script>
+    <script src="./scripts/data.js" defer></script>
+    <script src="./scripts/data-parser.js" defer></script>
+    <script src="./scripts/timeline-renderer.js" defer></script>
+    <script src="./scripts/ui-controller.js" defer></script>
+    <script src="./scripts/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+        <main class="flex-1 flex flex-col min-h-0 overflow-hidden p-3">
+
+            <!-- ================================================================
+                 VIEW 1: SINGLE-SCREEN 4-SLOT TIMELINE + RELIABILITY GAUGES
+                 Uses flex-1 & min-h-0 so all 4 workstation lanes fit 100% on one screen
+                 ================================================================ -->
+            <section id="view-timeline" class="flex-1 flex flex-col min-h-0 gap-2.5">
+                
+                <!-- Compact Filter & Legend Bar -->
+                <div class="bg-white rounded-xl border border-slate-200 px-4 py-2 shrink-0 shadow-2xs flex flex-wrap justify-between items-center gap-3">
+                    <div class="flex flex-wrap items-center gap-4 text-xs">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-white border-[2.5px] border-rose-500 inline-block"></span>
+                            <span class="text-slate-700 font-semibold">初測 Fail</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-white border-[2.5px] border-teal-600 inline-block"></span>
+                            <span class="text-slate-700 font-semibold">交叉工位 Pass</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-5 border-t-2 border-dashed border-amber-500 inline-block"></span>
+                            <span class="text-slate-500">跨工位流向 (懸停節點高亮)</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2.5 text-xs">
+                        <!-- Date Range Filter -->
+                        <div class="flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-lg border border-slate-200">
+                            <span class="text-slate-500 font-medium">日期:</span>
+                            <select id="date-filter" class="bg-white text-slate-800 font-mono-code font-semibold px-1.5 py-0.5 rounded border border-slate-200 focus:outline-none">
+                                <option value="ALL">全部日期</option>
+                            </select>
+                        </div>
+
+                        <!-- Test Item Filter -->
+                        <div class="flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-lg border border-slate-200">
+                            <span class="text-slate-500 font-medium">測項:</span>
+                            <select id="item-filter" class="bg-white text-slate-800 font-semibold px-1.5 py-0.5 rounded border border-slate-200 focus:outline-none">
+                                <option value="ALL">全部異常測項</option>
+                            </select>
+                        </div>
+
+                        <!-- Cross-Link Toggle -->
+                        <label class="inline-flex items-center gap-1.5 cursor-pointer bg-white px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-50 font-medium text-slate-700 select-none">
+                            <input type="checkbox" id="toggle-links" checked class="rounded text-slate-900 focus:ring-0">
+                            <span>交叉虛線</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Main 4-Slot Parallel Card (Fills remaining screen height without vertical scrollbar) -->
+                <div class="flex-1 flex flex-col min-h-0 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden relative">
+                    
+                    <!-- Table Column Header -->
+                    <div class="grid grid-cols-12 bg-slate-50 border-b border-slate-200 px-5 py-2 shrink-0 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        <div class="col-span-9 flex justify-between items-center pr-4">
+                            <span id="timeline-header-title">ATS2-2 四工位異常時間軸 (點擊任意節點檢視排故明細)</span>
+                            <span class="hidden sm:inline font-normal text-slate-400">時間軸僅標示初測 Fail 與交叉 Pass 產品</span>
+                        </div>
+                        <div class="col-span-3 pl-5 border-l border-slate-200">
+                            工位測試可信度評分
+                        </div>
+                    </div>
+
+                    <!-- 4 Equal-Height Flex Rows -->
+                    <div id="dashboard-rows-wrapper" class="flex-1 flex flex-col min-h-0 relative">
+                        <svg id="cross-links-svg" class="absolute inset-0 w-full h-full pointer-events-none z-20"></svg>
+                        <div id="workstation-rows" class="flex-1 flex flex-col min-h-0 divide-y divide-slate-200">
+                            <!-- 4 Workstation Rows injected dynamically here, each using flex-1 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================================================================
+                 VIEW 2: STRUCTURED TROUBLESHOOTING MATRIX LOG
+                 ================================================================ -->
+            <section id="view-log" class="hidden flex-1 flex flex-col min-h-0 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+                <div class="px-5 py-3.5 border-b border-slate-200 flex flex-wrap justify-between items-center gap-3 bg-slate-50/80 shrink-0">
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-900">異常排故動作矩陣紀錄表 (SOP Action Matrix Log)</h2>
+                        <p class="text-xs text-slate-500">一機一行標準化記錄，對應時間軸上的所有異常與交叉驗證事件</p>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs">
+                        <select id="log-slot-filter" class="bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-slate-700">
+                            <option value="ALL">全部初測工位</option>
+                        </select>
+                        <button id="btn-export-csv" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 cursor-pointer">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                            匯出 CSV
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex-1 overflow-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="sticky top-0 z-10">
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold whitespace-nowrap">
+                                <th class="py-2.5 px-3.5">測試時間</th>
+                                <th class="py-2.5 px-3.5">PSU 序列號</th>
+                                <th class="py-2.5 px-3.5">初測工位</th>
+                                <th class="py-2.5 px-3.5">Fail 測項</th>
+                                <th class="py-2.5 px-3.5 bg-blue-50/70 text-blue-900">1. 原位重測</th>
+                                <th class="py-2.5 px-3.5 bg-blue-50/70 text-blue-900">2. 插拔陪測</th>
+                                <th class="py-2.5 px-3.5 bg-blue-50/70 text-blue-900">3. 特殊處置</th>
+                                <th class="py-2.5 px-3.5 bg-teal-50/70 text-teal-900">4. 交叉工位</th>
+                                <th class="py-2.5 px-3.5 bg-amber-50/80 text-amber-900">5. 關鍵解決動作</th>
+                                <th class="py-2.5 px-3.5">真因歸屬</th>
+                                <th class="py-2.5 px-3.5 text-right">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="log-table-body" class="divide-y divide-slate-200">
+                            <!-- Rows populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ================================================================
+                 VIEW 3: RELIABILITY ANALYTICS & PARETO
+                 ================================================================ -->
+            <section id="view-analytics" class="hidden flex-1 overflow-y-auto space-y-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <!-- Pareto Card -->
+                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-3.5">
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-2.5">
+                            <div>
+                                <h3 class="text-sm font-bold text-slate-900">異常測項柏拉圖分析 (Top Fail Items)</h3>
+                                <p class="text-xs text-slate-500">統計當前站別各測項發生初測 Fail 的集中比例</p>
+                            </div>
+                            <span class="px-2 py-0.5 rounded bg-rose-50 text-rose-700 text-xs font-bold">重點改善項</span>
+                        </div>
+                        <div id="pareto-bars" class="space-y-3 pt-1"></div>
+                    </div>
+
+                    <!-- 4-Slot False-Call Comparison Card -->
+                    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-3.5">
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-2.5">
+                            <div>
+                                <h3 class="text-sm font-bold text-slate-900">四工位誤殺率與可信度橫向對比</h3>
+                                <p class="text-xs text-slate-500">「初測 Fail 但換工位 Pass」次數越多，代表該工位硬體/治具越不可信</p>
+                            </div>
+                            <span class="px-2 py-0.5 rounded bg-teal-50 text-teal-700 text-xs font-bold">一致性評估</span>
+                        </div>
+                        <div id="slot-comparison-cards" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================================================================
+                 VIEW 4: BACKEND API SCHEMA & INTEGRATION GUIDE
+                 ================================================================ -->
+            <section id="view-schema" class="hidden flex-1 overflow-y-auto bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
+                <div class="flex flex-wrap justify-between items-center border-b border-slate-100 pb-3 gap-3">
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">後臺數據介面規格 (Backend API / JSON & CSV Schema)</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">未來後臺開發完成後，只需回傳符合此格式的 JSON 即可無縫對接本前端儀表板</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="btn-dl-json-tpl" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer">
+                            下載標準 JSON 範本
+                        </button>
+                        <button id="btn-dl-csv-tpl" class="bg-teal-600 hover:bg-teal-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer">
+                            下載標準 CSV 範本
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+                    <div class="space-y-2">
+                        <div class="font-bold text-slate-700">標準 JSON Payload 結構範例：</div>
+                        <pre class="bg-slate-900 text-slate-100 p-4 rounded-xl font-mono-code text-[11px] overflow-x-auto leading-relaxed">{
+  "model": "ECD18010040-B",
+  "line": "CD01",
+  "stationGroup": "ATS2-2",
+  "slots": [
+    { "id": "ATS2_2_1", "score": 97, "maintenance": false },
+    { "id": "ATS2_2_2", "score": 73, "maintenance": false },
+    { "id": "ATS2_2_3", "score": 95, "maintenance": false },
+    { "id": "ATS2_2_4", "score": 94, "maintenance": false }
+  ],
+  "events": [
+    {
+      "id": "INC-001",
+      "sn": "A2231021412424",
+      "itemCode": "14#",
+      "itemName": "14# DES DMM Measurement",
+      "failStation": "ATS2_2_2",
+      "failTime": "2026/11/06 08:28",
+      "crossStation": "ATS2_2_4",
+      "crossTime": "2026/11/06 08:36",
+      "retryCount": "2次",
+      "reseatFixture": "未執行",
+      "specialAction": "無",
+      "keySolution": "換工位後 Pass",
+      "rootCause": "誤測 (工位)",
+      "note": "ATS2_2_2重測2次Fail -> 換ATS2_2_4重測Pass"
+    }
+  ]
+}</pre>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="font-bold text-slate-700">支援的 CSV / Excel 匯入欄位說明：</div>
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-slate-600 leading-relaxed">
+                            <p><strong class="text-slate-900">1. 兼容您現有的 Excel 欄位格式：</strong><br>
+                            系統內建智慧解析器，可直接上傳包含 <code class="bg-white px-1 py-0.5 rounded border">測試時間, PSU序列號, 初測工位, Fail 項, 重測歷程, 最終結果, Fail維度, 備註</code> 的 CSV 檔案，系統會自動從「重測歷程」中解析出交叉工位（例如 <code>換ATS2_2_3重測Pass</code>）並繪製跨工位連線。</p>
+                            <p><strong class="text-slate-900">2. 推薦優化後的動作矩陣 CSV 欄位：</strong><br>
+                            <code class="bg-white px-1 py-0.5 rounded border">測試時間, PSU序列號, 初測工位, Fail測項, 原位重測, 插拔陪測, 特殊處置, 交叉工位, 關鍵解決動作, 真因歸屬, 備註</code></p>
+                            <p><strong class="text-slate-900">3. 工位可信度自動計算邏輯：</strong><br>
+                            若上傳資料未指定工位分數，前端將自動依據該工位「初測 Fail 次數」與「換工位後 Pass（誤殺）次數」動態扣分計算可信度百分比。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
