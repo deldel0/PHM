@@ -5,16 +5,14 @@
             loadDataset(dataset) {
                 if (dataset.model) {
                     AppConfig.currentModel = dataset.model;
-                    document.getElementById('ctx-model').value = dataset.model;
                 }
                 if (dataset.line) {
                     AppConfig.currentLine = dataset.line;
-                    document.getElementById('ctx-line').value = dataset.line;
                 }
                 if (dataset.stationGroup) {
                     AppConfig.currentStation = dataset.stationGroup;
-                    document.getElementById('ctx-station').value = dataset.stationGroup;
                 }
+                ProductContextController.sync('dataset');
 
                 AppState.events = (dataset.events || []).map((ev, index) => ({
                     id: ev.id || `INC-${String(index + 1).padStart(3, '0')}`,

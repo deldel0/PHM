@@ -1,3 +1,66 @@
+        const ProductContextController = {
+            getLines() {
+                return [...new Set(ProductRelations.map(relation => relation.line))];
+            },
+
+            getModelsForLine(line) {
+                return [...new Set(ProductRelations
+                    .filter(relation => relation.line === line)
+                    .map(relation => relation.model))];
+            },
+
+            getStationsForProduct(line, model) {
+                return [...new Set(ProductRelations
+                    .filter(relation => relation.line === line && relation.model === model)
+                    .flatMap(relation => relation.stationGroups))];
+            },
+
+            populateSelect(select, values, selectedValue) {
+                select.innerHTML = '';
+                values.forEach(value => {
+                    const option = document.createElement('option');
+                    option.value = value;
+                    option.textContent = value;
+                    select.appendChild(option);
+                });
+                select.value = selectedValue;
+            },
+
+            sync(changedSelector) {
+                if (!ProductRelations.length || ProductRelations.some(relation =>
+                    !relation.line || !relation.model ||
+                    !Array.isArray(relation.stationGroups) || !relation.stationGroups.length
+                )) {
+                    throw new Error('請在 data.js 的 ProductRelations 設定有效的線別、機種與站別關係');
+                }
+
+                const lineSelect = document.getElementById('ctx-line');
+                const modelSelect = document.getElementById('ctx-model');
+                const stationSelect = document.getElementById('ctx-station');
+                const lines = this.getLines();
+
+                let line = changedSelector === 'ctx-line' ? lineSelect.value : AppConfig.currentLine;
+                let model = changedSelector === 'ctx-model' ? modelSelect.value : AppConfig.currentModel;
+                let station = changedSelector === 'ctx-station' ? stationSelect.value : AppConfig.currentStation;
+
+                if (!lines.includes(line)) line = lines[0];
+
+                let models = this.getModelsForLine(line);
+                if (!models.includes(model)) model = models[0];
+
+                const stations = this.getStationsForProduct(line, model);
+                if (!stations.includes(station)) station = stations[0];
+
+                AppConfig.currentLine = line;
+                AppConfig.currentModel = model;
+                AppConfig.currentStation = station;
+
+                this.populateSelect(lineSelect, lines, line);
+                this.populateSelect(modelSelect, models, model);
+                this.populateSelect(stationSelect, stations, station);
+            }
+        };
+
         /**
          * 6. EventListeners: Bind all UI interactions cleanly
          */
@@ -10,11 +73,7 @@
             // Top Context Selectors (Model, Line, Station)
             ['ctx-model', 'ctx-line', 'ctx-station'].forEach(id => {
                 document.getElementById(id).addEventListener('change', () => {
-                    AppConfig.currentModel = document.getElementById('ctx-model').value;
-                    AppConfig.currentLine = document.getElementById('ctx-line').value;
-                    AppConfig.currentStation = document.getElementById('ctx-station').value;
-
-                    // Rebuild slots for selected station group
+                    ProductContextController.sync(id);
                     AppState.slots = DataParserService.deriveSlotsFromEvents(AppConfig.currentStation, AppState.events);
                     TimelineRenderer.renderAll();
                     UIController.showToast(`已切換監控視角：${AppConfig.currentLine} / ${AppConfig.currentStation} (${AppConfig.currentModel})`);
