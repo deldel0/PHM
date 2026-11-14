@@ -52,7 +52,7 @@
                     <!-- Table Column Header -->
                     <div class="grid grid-cols-12 bg-slate-50 border-b border-slate-200 px-5 py-2 shrink-0 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
                         <div class="col-span-9 flex justify-between items-center pr-4">
-                            <span id="timeline-header-title">ATS2-2 四工位異常時間軸 (點擊任意節點檢視排故明細)</span>
+                            <span id="timeline-header-title">ATS2-2 各工位異常時間軸 (點擊任意節點檢視排故明細)</span>
                             <span class="hidden sm:inline font-normal text-slate-400">時間軸僅標示初測 Fail 與交叉 Pass 產品</span>
                         </div>
                         <div class="col-span-3 pl-5 border-l border-slate-200">
@@ -137,7 +137,7 @@
                     <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-3.5">
                         <div class="flex justify-between items-center border-b border-slate-100 pb-2.5">
                             <div>
-                                <h3 class="text-sm font-bold text-slate-900">四工位誤殺率與可信度橫向對比</h3>
+                                <h3 class="text-sm font-bold text-slate-900">各工位誤殺率與可信度橫向對比</h3>
                                 <p class="text-xs text-slate-500">「初測 Fail 但換工位 Pass」次數越多，代表該工位硬體/治具越不可信</p>
                             </div>
                             <span class="px-2 py-0.5 rounded bg-teal-50 text-teal-700 text-xs font-bold">一致性評估</span>

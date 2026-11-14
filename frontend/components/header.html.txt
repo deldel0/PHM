@@ -26,8 +26,9 @@
                     <span class="text-slate-400">機種:</span>
                     <select id="ctx-model" class="bg-transparent text-amber-300 font-mono-code font-bold focus:outline-none cursor-pointer">
                         <option value="ECD18010040-B" class="bg-slate-900 text-white" selected>ECD18010040-B</option>
-                        <option value="ECD18010045-A" class="bg-slate-900 text-white">ECD18010045-A</option>
-                        <option value="ECD22005012-C" class="bg-slate-900 text-white">ECD22005012-C</option>
+                        <option value="ECD18010046" class="bg-slate-900 text-white">ECD18010046</option>
+                        <option value="ECD18010054-B" class="bg-slate-900 text-white">ECD18010054-B</option>
+                        <option value="ECD18010054-EU" class="bg-slate-900 text-white">ECD18010054-EU</option>
                     </select>
                 </div>
 
@@ -35,10 +36,13 @@
                 <div class="flex items-center gap-1.5 bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">
                     <span class="text-slate-400">線別:</span>
                     <select id="ctx-line" class="bg-transparent text-white font-mono-code font-bold focus:outline-none cursor-pointer">
-                        <option value="CD01" class="bg-slate-900 text-white" selected>CD01</option>
-                        <option value="CD02" class="bg-slate-900 text-white">CD02</option>
+                        <option value="CD02" class="bg-slate-900 text-white selected">CD02</option>
                         <option value="CD03" class="bg-slate-900 text-white">CD03</option>
                         <option value="CD04" class="bg-slate-900 text-white">CD04</option>
+                        <option value="CD04" class="bg-slate-900 text-white">CD05</option>
+                        <option value="CD04" class="bg-slate-900 text-white">CD06</option>
+                        <option value="CD04" class="bg-slate-900 text-white">CD07</option>
+                        <option value="CD04" class="bg-slate-900 text-white">CD09</option>
                     </select>
                 </div>
 
@@ -46,10 +50,10 @@
                 <div class="flex items-center gap-1.5 bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">
                     <span class="text-slate-400">站別:</span>
                     <select id="ctx-station" class="bg-transparent text-teal-300 font-mono-code font-bold focus:outline-none cursor-pointer">
-                        <option value="ATS2-2" class="bg-slate-900 text-white" selected>ATS2-2</option>
-                        <option value="ATS2-1" class="bg-slate-900 text-white">ATS2-1</option>
                         <option value="I2C1-1" class="bg-slate-900 text-white">I2C1-1</option>
                         <option value="I2C1-2" class="bg-slate-900 text-white">I2C1-2</option>
+                        <option value="ATS2-1" class="bg-slate-900 text-white">ATS2-1</option>
+                        <option value="ATS2-2" class="bg-slate-900 text-white" selected>ATS2-2</option>
                     </select>
                 </div>
 
