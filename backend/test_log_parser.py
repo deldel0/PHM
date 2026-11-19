@@ -1,3 +1,4 @@
+import json
 import re
 from datetime import datetime
 from pathlib import PureWindowsPath
@@ -189,6 +190,39 @@ def parse_test_log(text: str, relative_path: str | None = None) -> dict[str, Any
 
 # test
 
-# text = open(r"D:\dove\A2230206846570-02-36-18-November-2026.txt", encoding="utf-8", errors="ignore").read()
-# record = parse_test_log(text, r"CD02\ATS2-2\ATS2-2-4\A2230206846570-02-36-18-November-2026.txt")
-# print(record)
+
+# if __name__ == "__main__":
+#     with open(
+#         r"D:\dove\A2230206846570-02-36-18-November-2026.txt",
+#         encoding="utf-8",
+#         errors="ignore",
+#     ) as report_file:
+#         text = report_file.read()
+
+#     record = parse_test_log(
+#         text,
+#         r"CD02\ATS2-2\ATS2-2-4\A2230206846570-02-36-18-November-2026.txt",
+#     )
+#     print(json.dumps(record, ensure_ascii=False, indent=2))
+
+
+# result formatting example:
+# {
+#   "schema_version": 2,
+#   "test_program": "ECD18010040-B-00-FAT-05",
+#   "serial_no": "A2230206846570",
+#   "model_name": "ECD18010040-B",
+#   "tested_at": "2026-11-18T02:36:26",
+#   "result": "FAIL",
+#   "line": "CD02",
+#   "station_group": "ATS2-2",
+#   "station": "ATS2-2-4",
+#   "fail_items": [
+#     {
+#       "sequence": 17,
+#       "step": 17,
+#       "description": "DES DMM Measurement(5.3 Check Present after UUT1 insert)"
+#     }
+#   ],
+#   "source_file": "CD02\\ATS2-2\\ATS2-2-4\\A2230206846570-02-36-18-November-2026.txt"
+# }
